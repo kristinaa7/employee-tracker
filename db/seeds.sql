@@ -5,8 +5,6 @@ VALUES  ( 'Sales'),
         ( 'Finance'), 
         ( 'Legal');
 
-SELECT * FROM department;
-
 -- autoincrement in schema.sql makes you not need to rewrite your Id
 -- semi colons on the last value
 
@@ -21,8 +19,6 @@ VALUES  ('Sales Lead', 1, 100000),
         ('Legal Team Lead', 4, 250000),
         ('Lawyer', 4, 190000);
 
-SELECT * FROM role;
-
 -- Insert multiple employees 
 INSERT INTO employee (first_name, last_name, role_id, department_id, salary, manager_id)
 VALUES  ('John', 'Doe', 1, 1, 100000, NULL),
@@ -33,5 +29,3 @@ VALUES  ('John', 'Doe', 1, 1, 100000, NULL),
         ('Malia', 'Brown', 6, 3, 125000, 5),
         ('Sarah', 'Lourd', 7, 4, 250000, NULL),
         ('Tom', 'Allen', 8, 4, 190000, 7);
-
-SELECT * FROM employee;

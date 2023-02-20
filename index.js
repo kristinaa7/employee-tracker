@@ -1,7 +1,9 @@
 const inquirer = require('inquirer')
 
 const questions = () => {
-    console.log(`Employee Tracker`);
+    console.log(`
+    =========Employee Tracker=========
+    `);
     inquirer.prompt([
         {
             type: 'list',
@@ -38,7 +40,9 @@ const questions = () => {
 //returning the table
 const allEmployees = () => {
     // employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
-    const sql = `SELECT id, movie_name AS title FROM movies`;
+    const sql = `SELECT id, first_name, last_name, role, department, salary, manager_name`;
+    //runs start function again 
+questions();
 };
 
 //requires prompts
@@ -69,6 +73,8 @@ const addEmployees = () => {
     ])
     .then
 console.log('Added `{$firstName}` `{$lastName}` to the database');
+    //runs start function again 
+    questions();
 };
 
 //requires prompts
@@ -88,11 +94,18 @@ const employeeRole = () => {
     ])
     .then
     console.log("Updated employee's role");
+        //runs start function again 
+questions();
 };
 
 //returning the table
 const viewAll = () => {
-};
+    // Query database
+db.query('SELECT * FROM role', function (err, results) {
+        console.log(results);
+            //runs start function again 
+questions();
+})};
 
 //requires prompts
 const addRole = () => {
@@ -116,8 +129,18 @@ const addRole = () => {
 ])
 .then
 console.log('Added Customer Service to the database');
+    //runs start function again 
+    questions();
 };
 
 //returning the table
 const allDepartments = () => {
-};
+    db.query('SELECT * FROM department', function (err, results) {
+        console.log(results);
+})
+    //runs start function again 
+    questions();
+    };
+
+//begins prompts when app starts
+questions();
