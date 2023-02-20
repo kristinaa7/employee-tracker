@@ -1,6 +1,6 @@
 const inquirer = require('inquirer')
 
-const questions = () => {
+const init = () => {
     console.log(`
     =========Employee Tracker=========
     `);
@@ -42,7 +42,7 @@ const allEmployees = () => {
     // employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
     const sql = `SELECT id, first_name, last_name, role, department, salary, manager_name`;
     //runs start function again 
-questions();
+init();
 };
 
 //requires prompts
@@ -74,7 +74,7 @@ const addEmployees = () => {
     .then
 console.log('Added `{$firstName}` `{$lastName}` to the database');
     //runs start function again 
-    questions();
+    init();
 };
 
 //requires prompts
@@ -95,7 +95,7 @@ const employeeRole = () => {
     .then
     console.log("Updated employee's role");
         //runs start function again 
-questions();
+init();
 };
 
 //returning the table
@@ -104,7 +104,7 @@ const viewAll = () => {
 db.query('SELECT * FROM role', function (err, results) {
         console.log(results);
             //runs start function again 
-questions();
+init();
 })};
 
 //requires prompts
@@ -130,7 +130,7 @@ const addRole = () => {
 .then
 console.log('Added Customer Service to the database');
     //runs start function again 
-    questions();
+    init();
 };
 
 //returning the table
@@ -139,8 +139,8 @@ const allDepartments = () => {
         console.log(results);
 })
     //runs start function again 
-    questions();
+    init();
     };
 
 //begins prompts when app starts
-questions();
+init();
