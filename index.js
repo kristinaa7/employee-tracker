@@ -1,4 +1,6 @@
-const inquirer = require('inquirer')
+const inquirer = require('inquirer');
+require ('console.table');
+const db = require ('./db/db_access');
 
 const init = () => {
     console.log(`
@@ -106,9 +108,11 @@ const employeeRole = () => {
 //returning the table
 const viewAll = () => {
     // Query database
-const sql = `SELECT role.id, role.title, department.name AS department FROM role JOIN department ON role.department_id = department.id`
-db.query('select * from employee', (err, data) => {
-    console.table(data)
+    db.getAllRoles()
+    .then(([rows]) => {
+        let roles = rows; 
+        console.log(`\n`);
+        console.table(roles)
         //runs start function again 
         init();
     })
@@ -142,7 +146,13 @@ const addRole = () => {
 
 //returning the table
 const allDepartments = () => {
-const sql = `SELECT department.id as id, department.name AS department FROM department`;
+    db.getAllDepartments()
+    .then(([rows]) => {
+        let departments = rows; 
+        console.log(`\n`);
+        console.table(departments)
+    });
+
     //runs start function again 
     init();
 };
