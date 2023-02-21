@@ -14,18 +14,18 @@ VALUES  ('Sales Lead', 1, 100000),
         ('Salesperson', 1, 80000),
         ('Lead Engineer', 2, 150000),
         ('Software Engineer', 2, 120000),
-        ( 'Account Manager', 3, 160000),
+        ('Account Manager', 3, 160000),
         ('Accountant', 3, 125000),
         ('Legal Team Lead', 4, 250000),
         ('Lawyer', 4, 190000);
 
 -- Insert multiple employees 
-INSERT INTO employee (first_name, last_name, role_id, department_id, salary, manager_id)
-VALUES  ('John', 'Doe', 1, 1, 100000, NULL),
-        ('Mike', 'Chan', 2, 1, 80000, 1), 
-        ('Ashley', 'Rodriguez', 3, 2, 150000, NULL),
-        ('Kevin', 'Tupik', 4, 2, 120000, 3),
-        ('Kunal', 'Singh', 5, 3, 160000 NULL),
-        ('Malia', 'Brown', 6, 3, 125000, 5),
-        ('Sarah', 'Lourd', 7, 4, 250000, NULL),
-        ('Tom', 'Allen', 8, 4, 190000, 7);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES  ('John', 'Doe', 1, NULL),
+        ('Mike', 'Chan', 2, 1), 
+        ('Ashley', 'Rodriguez', 3, NULL),
+        ('Kevin', 'Tupik', 4, 3),
+        ('Kunal', 'Singh', 5, NULL),
+        ('Malia', 'Brown', 6, 5),
+        ('Sarah', 'Lourd', 7, NULL),
+        ('Tom', 'Allen', 8, 7);

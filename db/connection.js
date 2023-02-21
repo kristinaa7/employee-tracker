@@ -1,7 +1,7 @@
 const mysql = require ('mysql2')
 
 const db = mysql.createConnection({
-    host: 'local host',
+    host: 'localhost',
     user: 'root',
     database: 'company_db',
     password: 'Bootcamp2023$',
