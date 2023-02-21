@@ -2,7 +2,7 @@ const inquirer = require('inquirer')
 
 const init = () => {
     console.log(`
-    =========Employee Tracker=========
+    ========= Employee Tracker Main Menu =========
     `);
     inquirer.prompt([
         {
@@ -32,6 +32,9 @@ const init = () => {
                 case 'View All Departments':
                     allDepartments();
                     break;
+                    case 'Add':
+                        addDepartments();
+                        break;
             }
 
         })
@@ -40,28 +43,28 @@ const init = () => {
 //returning the table
 const allEmployees = () => {
     // employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
-    const sql = `SELECT id, first_name, last_name, role, department, salary, manager_name`;
+    const sql = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS 'department', role.salary FROM employee, role, department WHERE department.id = role.department_id AND role.id = employee.role_id ORDER BY employee.id ASC, employee.manager_id FROM employee, role, department`;
     //runs start function again 
-init();
+    init();
 };
 
 //requires prompts
 const addEmployees = () => {
-    inquirer.prompt ([
+    inquirer.prompt([
         {
             type: 'input',
-            message: "What is the employee's first name?",
-            name: 'firstName', 
+            message: "What is the employee's first name",
+            name: 'firstName',
         },
         {
             type: 'input',
             message: "What is the employee's last name?",
-            name: 'lastName', 
+            name: 'lastName',
         },
         {
             type: 'list',
             message: "What is the employee's role?",
-            choices: ['Sales Lead', 'Salesperson', 'Lead Engineer', 'Software Engineer', 'Account Manager', 'Accountant', 'Legal Team Lead','Lawyer', 'Customer Service'],
+            choices: ['Sales Lead', 'Salesperson', 'Lead Engineer', 'Software Engineer', 'Account Manager', 'Accountant', 'Legal Team Lead', 'Lawyer', 'Customer Service'],
             name: 'role'
         },
         {
@@ -71,76 +74,83 @@ const addEmployees = () => {
             name: 'manager'
         },
     ])
-    .then
-console.log('Added `{$firstName}` `{$lastName}` to the database');
+        .then(answer => {
+
+        })
+    console.log('Added `{$firstName}` `{$lastName}` to the database');
     //runs start function again 
     init();
 };
 
 //requires prompts
 const employeeRole = () => {
-    inquirer.prompt ([
+    inquirer.prompt([
         {
             type: 'input',
             message: "Which employee's role do you want to update?",
-            name: 'updateName', 
+            name: 'updateName',
         },
-    {
-        type: 'list',
-        message: "Which role do you want to assign to the selected employee?",
-        choices: ['Sales Lead', 'Salesperson', 'Lead Engineer', 'Software Engineer', 'Account Manager', 'Accountant', 'Legal Team Lead','Lawyer', 'Customer Service'],
-        name: 'updateRole'
-    },
+        {
+            type: 'list',
+            message: "Which role do you want to assign to the selected employee?",
+            choices: ['Sales Lead', 'Salesperson', 'Lead Engineer', 'Software Engineer', 'Account Manager', 'Accountant', 'Legal Team Lead', 'Lawyer', 'Customer Service'],
+            name: 'updateRole'
+        },
     ])
-    .then
+        .then
     console.log("Updated employee's role");
-        //runs start function again 
-init();
+    //runs start function again 
+    init();
 };
 
 //returning the table
 const viewAll = () => {
     // Query database
-db.query('SELECT * FROM role', function (err, results) {
-        console.log(results);
-            //runs start function again 
-init();
-})};
+const sql = `SELECT role.id, role.title, department.name AS department FROM role JOIN department ON role.department_id = department.id`
+db.query('select * from employee', (err, data) => {
+    console.table(data)
+        //runs start function again 
+        init();
+    })
+};
 
 //requires prompts
 const addRole = () => {
-    inquirer.prompt ([
-    {
-        type: 'input',
-        message: 'What is the name of the role?',
-        name: 'name', 
-    },
-    {
-        type: 'input',
-        message: 'What is the salary of the role?',
-        name: 'salary', 
-    },
-    {
-        type: 'list',
-        message: 'Which department does the role belong to?',
-        choices: ['Engineering', 'Finance', 'Legal', 'Sales', 'Service'],
-        name: 'department'
-    },
-])
-.then
-console.log('Added Customer Service to the database');
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'What is the name of the role?',
+            name: 'name',
+        },
+        {
+            type: 'input',
+            message: 'What is the salary of the role?',
+            name: 'salary',
+        },
+        {
+            type: 'list',
+            message: 'Which department does the role belong to?',
+            choices: ['Engineering', 'Finance', 'Legal', 'Sales', 'Service'],
+            name: 'department'
+        },
+    ])
+        .then
+    console.log('Added Customer Service to the database');
     //runs start function again 
     init();
 };
 
 //returning the table
 const allDepartments = () => {
-    db.query('SELECT * FROM department', function (err, results) {
-        console.log(results);
-})
+const sql = `SELECT department.id as id, department.name AS department FROM department`;
     //runs start function again 
     init();
-    };
+};
+
+//prompts
+const addDepartments = () => {
+    init();
+}
 
 //begins prompts when app starts
 init();
