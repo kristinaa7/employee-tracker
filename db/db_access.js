@@ -28,6 +28,12 @@ class db_access {
             'insert into department set ? ', dept
         );
     }
+
+    addEmployee(emp){
+        return this.db.promise().query(
+            'insert into employee set ? ', emp
+        );
+    }
 }
 
 module.exports = new db_access(db);

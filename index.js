@@ -60,32 +60,33 @@ const addEmployees = () => {
         {
             type: 'input',
             message: "What is the employee's first name",
-            name: 'firstName',
+            name: 'first_name',
         },
         {
             type: 'input',
             message: "What is the employee's last name?",
-            name: 'lastName',
+            name: 'last_name',
         },
         {
             type: 'list',
             message: "What is the employee's role?",
             choices: ['Sales Lead', 'Salesperson', 'Lead Engineer', 'Software Engineer', 'Account Manager', 'Accountant', 'Legal Team Lead', 'Lawyer', 'Customer Service'],
-            name: 'role'
+            name: 'role_id'
         },
         {
             type: 'list',
             message: "Who is the employee's manager?",
             choices: ['John Doe', 'Mike Chan', 'Ashley Rodriguez', 'Kevin Tupik', 'Kunal Singh', 'Malia Brown'],
-            name: 'manager'
+            name: 'manager_id'
         },
     ])
-        .then(answers => {
+    .then(res => {
+        let emp = res;
+        db.addEmployee(emp)
 
-        })
-    console.log('Added `{$firstName}` `{$lastName}` to the database');
-    //runs start function again 
-    init();
+            .then(() => init())
+    })
+    console.log('Added employee to the company database');
 };
 
 //requires prompts
@@ -163,7 +164,6 @@ const allDepartments = () => {
 
 //prompts
 const addDepartments = () => {
-    console.log('addDepartments')
     inquirer.prompt([
         {
             type: 'input',
