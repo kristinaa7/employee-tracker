@@ -7,37 +7,37 @@ class db_access {
 
     getAllDepartments() {
         return this.db.promise().query(
-            'select department.id, department.name FROM department;'
+            'SELECT department.id, department.name FROM department;'
         )
     }
 
     getAllRoles() {
         return this.db.promise().query(
-            'select role.title, department.id, role.salary FROM role LEFT JOIN department ON role.department_id = department.id;' 
+            'SELECT role.title, department.id, role.salary FROM role LEFT JOIN department ON role.department_id = department.id;' 
         )
     }
 
     getAllEmployees() {
         return this.db.promise().query(
-            'select employee.first_name, employee.last_name, employee.role_id, employee.manager_id FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id' 
+            'SELECT employee.first_name, employee.last_name, employee.role_id, employee.manager_id FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id' 
         )
     }
 
     addDepartment(dept){
         return this.db.promise().query(
-            'insert into department set ? ', dept
+            'INSERT INTO department SET ? ', dept
         );
     }
 
     addEmployee(emp){
         return this.db.promise().query(
-            'insert into employee set ? ', emp
+            `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${first_name}', '${last_name}', '${role_id}, '${manager_id}')`, emp
         );
     }
 
-    add_Role(role){
+    addEmpRole(role){
         return this.db.promise().query(
-            'insert into role set ? ', role
+            `INSERT INTO role (title, department_id, salary) VALUES ('${role.title}','${role.department_id}', '${role.salary}') `, role
         );
     }
 }

@@ -85,8 +85,8 @@ const addEmployees = () => {
         db.addEmployee(emp)
 
             .then(() => init())
+            console.log('Added employee to the company database');
     })
-    console.log('Added employee to the company database');
 };
 
 //requires prompts
@@ -105,7 +105,7 @@ const employeeRole = () => {
         },
     ])
         .then
-    console.log("Updated employee's role");
+    console.log("Updated employee's role in company database");
     //runs start function again 
     init();
 };
@@ -139,17 +139,16 @@ const addRole = () => {
         {
             type: 'list',
             message: 'Which department does the role belong to?',
-            choices: ['Engineering', 'Finance', 'Legal', 'Sales', 'Service'],
+            choices: ['Sales', 'Engineering', 'Finance', 'Legal'],
             name: 'department_id'
         },
     ])
     .then(res => {
         let role = res;
-        db.add_Role(role)
+        db.addEmpRole(role)
 
             .then(() => init())
     console.log('Added role to the company database');
-
     })
 };
 
@@ -180,8 +179,8 @@ const addDepartments = () => {
             db.addDepartment(dept)
 
                 .then(() => init())
+                console.log('Added department to company database');
         })
-    console.log('Added department');
 };
 
 //begins prompts when app starts
