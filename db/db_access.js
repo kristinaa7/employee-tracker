@@ -34,6 +34,12 @@ class db_access {
             'insert into employee set ? ', emp
         );
     }
+
+    add_Role(role){
+        return this.db.promise().query(
+            'insert into role set ? ', role
+        );
+    }
 }
 
 module.exports = new db_access(db);

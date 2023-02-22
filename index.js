@@ -129,7 +129,7 @@ const addRole = () => {
         {
             type: 'input',
             message: 'What is the name of the role?',
-            name: 'name',
+            name: 'title',
         },
         {
             type: 'input',
@@ -140,13 +140,17 @@ const addRole = () => {
             type: 'list',
             message: 'Which department does the role belong to?',
             choices: ['Engineering', 'Finance', 'Legal', 'Sales', 'Service'],
-            name: 'department'
+            name: 'department_id'
         },
     ])
-        .then
-    console.log('Added Customer Service to the database');
-    //runs start function again 
-    init();
+    .then(res => {
+        let role = res;
+        db.add_Role(role)
+
+            .then(() => init())
+    console.log('Added role to the company database');
+
+    })
 };
 
 //returning the table
