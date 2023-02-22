@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
-require ('console.table');
-const db = require ('./db/db_access');
+require('console.table');
+const db = require('./db/db_access');
 
 const init = () => {
     console.log(`
@@ -34,9 +34,9 @@ const init = () => {
                 case 'View All Departments':
                     allDepartments();
                     break;
-                    case 'Add':
-                        addDepartments();
-                        break;
+                case 'Add Department':
+                    addDepartments();
+                    break;
             }
 
         })
@@ -44,8 +44,12 @@ const init = () => {
 
 //returning the table
 const allEmployees = () => {
-    // employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
-    const sql = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS 'department', role.salary FROM employee, role, department WHERE department.id = role.department_id AND role.id = employee.role_id ORDER BY employee.id ASC, employee.manager_id FROM employee, role, department`;
+    db.getAllEmployees()
+        .then(([rows]) => {
+            let employees = rows;
+            console.log(`\n`);
+            console.table(employees)
+        })
     //runs start function again 
     init();
 };
@@ -76,7 +80,7 @@ const addEmployees = () => {
             name: 'manager'
         },
     ])
-        .then(answer => {
+        .then(answers => {
 
         })
     console.log('Added `{$firstName}` `{$lastName}` to the database');
@@ -109,13 +113,13 @@ const employeeRole = () => {
 const viewAll = () => {
     // Query database
     db.getAllRoles()
-    .then(([rows]) => {
-        let roles = rows; 
-        console.log(`\n`);
-        console.table(roles)
-        //runs start function again 
-        init();
-    })
+        .then(([rows]) => {
+            let roles = rows;
+            console.log(`\n`);
+            console.table(roles)
+            //runs start function again 
+            init();
+        })
 };
 
 //requires prompts
@@ -147,11 +151,11 @@ const addRole = () => {
 //returning the table
 const allDepartments = () => {
     db.getAllDepartments()
-    .then(([rows]) => {
-        let departments = rows; 
-        console.log(`\n`);
-        console.table(departments)
-    });
+        .then(([rows]) => {
+            let departments = rows;
+            console.log(`\n`);
+            console.table(departments)
+        });
 
     //runs start function again 
     init();
@@ -159,8 +163,22 @@ const allDepartments = () => {
 
 //prompts
 const addDepartments = () => {
-    init();
-}
+    console.log('addDepartments')
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'What is the name of the department?',
+            name: 'name',
+        },
+    ])
+        .then(res => {
+            let dept = res;
+            db.addDepartment(dept)
+
+                .then(() => init())
+        })
+    console.log('Added department');
+};
 
 //begins prompts when app starts
 init();

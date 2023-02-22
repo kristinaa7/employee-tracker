@@ -19,8 +19,14 @@ class db_access {
 
     getAllEmployees() {
         return this.db.promise().query(
-            'select role.title, department.id, role.salary FROM role LEFT JOIN department ON role.department_id = department.id;' 
+            'select employee.first_name, employee.last_name, employee.role_id, employee.manager_id FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id' 
         )
+    }
+
+    addDepartment(dept){
+        return this.db.promise().query(
+            'insert into department set ? ', dept
+        );
     }
 }
 
