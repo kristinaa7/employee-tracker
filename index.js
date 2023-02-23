@@ -1,4 +1,5 @@
 const inquirer = require('inquirer');
+const { getAllRoles, getAllDepartments } = require('./db/db_access');
 require('console.table');
 const db = require('./db/db_access');
 
@@ -56,6 +57,10 @@ const allEmployees = () => {
 
 //requires prompts
 const addEmployees = () => {
+    db.getAllRoles().then(([rows]) => {
+        let roles = rows
+        const roleChoices = roles.map(({id, title}) => {
+        });
     inquirer.prompt([
         {
             type: 'input',
@@ -70,7 +75,7 @@ const addEmployees = () => {
         {
             type: 'list',
             message: "What is the employee's role?",
-            choices: ['Sales Lead', 'Salesperson', 'Lead Engineer', 'Software Engineer', 'Account Manager', 'Accountant', 'Legal Team Lead', 'Lawyer', 'Customer Service'],
+            choices: roleChoices,
             name: 'role_id'
         },
         {
@@ -80,13 +85,14 @@ const addEmployees = () => {
             name: 'manager_id'
         },
     ])
-    .then(res => {
-        let emp = res;
-        db.addEmployee(emp)
+        .then(res => {
+            let emp = res;
+            db.addEmployee(emp)
 
-            .then(() => init())
+                .then(() => init())
             console.log('Added employee to the company database');
-    })
+        })
+    });
 };
 
 //requires prompts
@@ -125,30 +131,36 @@ const viewAll = () => {
 
 //requires prompts
 const addRole = () => {
-    inquirer.prompt([
-        {
-            type: 'input',
-            message: 'What is the name of the role?',
-            name: 'title',
-        },
-        {
-            type: 'input',
-            message: 'What is the salary of the role?',
-            name: 'salary',
-        },
-        {
-            type: 'list',
-            message: 'Which department does the role belong to?',
-            choices: ['Sales', 'Engineering', 'Finance', 'Legal'],
-            name: 'department_id'
-        },
-    ])
-    .then(res => {
-        let role = res;
-        db.addEmpRole(role)
+    db.getAllDepartments().then(([rows]) => {
+        let departments = rows
+        const deptChoices = departments.map(({ id, name }) => {
+            return { name, value: id }
+        });
+        inquirer.prompt([
+            {
+                type: 'input',
+                message: 'What is the name of the role?',
+                name: 'title',
+            },
+            {
+                type: 'input',
+                message: 'What is the salary of the role?',
+                name: 'salary',
+            },
+            {
+                type: 'list',
+                message: 'Which department does the role belong to?',
+                choices: deptChoices,
+                name: 'department_id'
+            },
+        ])
+            .then(res => {
+                let role = res;
+                db.addEmpRole(role)
 
-            .then(() => init())
-    console.log('Added role to the company database');
+                    .then(() => init())
+                console.log('Added role to the company database');
+            })
     })
 };
 
@@ -179,7 +191,7 @@ const addDepartments = () => {
             db.addDepartment(dept)
 
                 .then(() => init())
-                console.log('Added department to company database');
+            console.log('Added department to company database');
         })
 };
 
