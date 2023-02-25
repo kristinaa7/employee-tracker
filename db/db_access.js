@@ -37,7 +37,13 @@ class db_access {
 
     addEmpRole(role){
         return this.db.promise().query(
-            `INSERT INTO role (title, department_id, salary) VALUES ('${role.title}','${role.department_id}', '${role.salary}') `, role
+            `INSERT INTO role (title, department_id, salary) VALUES ('${role.title}','${role.department_id}','${role.salary}')`, role
+        );
+    }
+
+    addManager(mgr){
+        return this.db.promise().query(
+            `INSERT INTO employee (manager_id) VALUES ('${manager_id}')`, mgr
         );
     }
 }
